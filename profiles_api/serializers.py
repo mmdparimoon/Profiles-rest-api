@@ -2,6 +2,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
+from . import models
 
 UserProfile = get_user_model()
 
@@ -45,3 +46,13 @@ class UserProfileSerializer(serializers.ModelSerializer):
             instance.set_password(password)
 
         return super().update(instance, validated_data)
+    
+class ProfileFeeditemSerializer(serializers.ModelSerializer):
+    """Serialize Profile feed items"""
+    class Meta:
+        model=models.ProfileFeedItem
+        fields='__all__'
+        extra_kwargs={
+            'user_profile':{'read_only':True}
+            }    
+            
